@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE "restaurant.dtd">
-        <restaurant>
-    <date day="15" month="04" year="2016">
+<!DOCTYPE restaurant SYSTEM "restaurant.dtd">
+<restaurant>
+    <date day="7" month="5" year="2016">
         <order>
-            <officiant firstname="garik" secondname="sidorov"/>
-            <item name="pureshka" cost="50"/>
-            <item name="kotletka" cost="20"/>
-            <totalcost>70</totalcost>
-        </order>
-        <order>
-            <officiant firstname="vova" secondname="petrov"/>
-            <item name="beer" cost="40"/>
-            <totalcost>40</totalcost>
-        </order>
-        <order>
-            <officiant firstname="andey" secondname="ivanov"/>
-            <item name="water" cost="10"/>
-            <totalcost>10</totalcost>
+            <officiant firstname="lev" secondname="petrov"/>
+            <item cost="15" name="soup"/>
+            <item cost="40" name="milk"/>
+            <totalcost>55</totalcost>
         </order>
     </date>
-    <date day="18" month="08" year="2016">
+    <date day="15" month="8" year="2016">
         <order>
-            <officiant firstname="garik" secondname="sidorov"/>
-            <item name="bread" cost="20"/>
-            <item name="milk" cost="40"/>
+            <officiant firstname="andrey" secondname="petrov"/>
+            <item cost="20" name="bread"/>
+            <item cost="40" name="milk"/>
+            <totalcost>60</totalcost>
+        </order>
+        <order>
+            <officiant firstname="andrey" secondname="petrov"/>
+            <item cost="30" name="juice"/>
+            <item cost="20" name="milk"/>
+            <totalcost>50</totalcost>
+        </order>
+    </date>
+    <date day="15" month="6" year="2016">
+        <order>
+            <officiant firstname="vova" secondname="petrov"/>
+            <item cost="20" name="bread"/>
+            <item cost="40" name="milk"/>
             <totalcost>60</totalcost>
         </order>
     </date>
