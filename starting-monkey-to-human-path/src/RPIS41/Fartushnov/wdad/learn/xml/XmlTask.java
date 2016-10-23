@@ -128,4 +128,21 @@ public class XmlTask {
             }
         }
     }
+
+    private int countItems(Calendar calendar){
+        NodeList dates = doc.getElementsByTagName("date");
+        NamedNodeMap dateInfo;
+        int countItems=0;
+        for (int i = 0; i < dates.getLength(); i++) {
+            dateInfo = dates.item(i).getAttributes();
+            if ((Integer.valueOf(dateInfo.getNamedItem("day").getNodeValue()) == calendar.get(Calendar.DAY_OF_MONTH)) &&
+                    (Integer.valueOf(dateInfo.getNamedItem("month").getNodeValue()) == (calendar.get(Calendar.MONTH)+1)) &&
+                    (Integer.valueOf(dateInfo.getNamedItem("year").getNodeValue()) == calendar.get(Calendar.YEAR))) {
+                NodeList items = ((Element)dates.item(i)).getElementsByTagName("item");
+                countItems+=items.getLength();
+            }
+        }
+        return countItems;
+    }
+
 }
