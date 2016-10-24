@@ -160,6 +160,8 @@ public class PreferencesManager {
         return result.getTextContent();
     }
 
+
+
     public void setProperties(Properties prop) throws IOException, XPathExpressionException {
         XPathExpression expr;
         String[] keys = {CREATE_REGISTRY,REGISTRY_ADDRESS,REGISTRY_PORT,POLICY_PATH,USE_CODE_BASE_ONLY,CLASS_PROVIDER};
