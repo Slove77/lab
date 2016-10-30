@@ -160,14 +160,15 @@ public class PreferencesManager {
         return result.getTextContent();
     }
 
+
+
     public void setProperties(Properties prop) throws IOException, XPathExpressionException {
         XPathExpression expr;
-        String[] keys = {CREATE_REGISTRY,REGISTRY_ADDRESS,REGISTRY_PORT,POLICY_PATH,USE_CODE_BASE_ONLY,CLASS_PROVIDER};
-        for (int i = 0; i < keys.length; i++ ){
-            keys[i] = changePath(keys[i]);
-            expr = xPath.compile(keys[i]);
+        for (String key : prop.stringPropertyNames()){
+            String newKey = changePath(key);
+            expr = xPath.compile(newKey);
             Node result = (Node) expr.evaluate(doc,XPathConstants.NODE);
-            result.setTextContent(prop.getProperty(keys[i]));
+            result.setTextContent(prop.getProperty(key));
         }
         rewriteDoc();
     }
@@ -177,28 +178,30 @@ public class PreferencesManager {
         String[] keys = {CREATE_REGISTRY,REGISTRY_ADDRESS,REGISTRY_PORT,POLICY_PATH,USE_CODE_BASE_ONLY,CLASS_PROVIDER};
         Properties prop = new Properties();
         for (int i = 0; i < keys.length; i++ ){
+            String currentProperty=keys[i];
             keys[i] = changePath(keys[i]);
             expr = xPath.compile(keys[i]);
             Node result = (Node) expr.evaluate(doc,XPathConstants.NODE);
-            prop.setProperty(keys[i],result.getTextContent());
+            prop.setProperty(currentProperty,result.getTextContent());
         }
         return prop;
     }
 
     public void addBindedObject(String name, String className) throws IOException, XPathExpressionException {
-        String key = changePath(className);
-        XPathExpression expr = xPath.compile(key);
-        Node result = (Node) expr.evaluate(doc,XPathConstants.NODE);
-        Element property = doc.createElement(name);
-        result.appendChild(property);
+        Element bindedObject = doc.createElement("bindedobject");
+        bindedObject.setAttribute("name", name);
+        bindedObject.setAttribute("class", className);
+        doc.getElementsByTagName("server").item(0).appendChild(bindedObject);
         rewriteDoc();
     }
 
     public void removeBindedObject(String name) throws XPathExpressionException, IOException {
-        String key = changePath(name);
-        XPathExpression expr = xPath.compile(key);
-        Node result = (Node) expr.evaluate(doc,XPathConstants.NODE);
-        result.getParentNode().removeChild(result);
+        NodeList bindedObjects = doc.getElementsByTagName("bindedobject");
+        for (int i = 0; i < bindedObjects.getLength(); i++) {
+            if (name.equals(bindedObjects.item(i).getAttributes().getNamedItem("name").getNodeValue())) {
+                bindedObjects.item(i).getParentNode().removeChild(bindedObjects.item(i));
+            }
+        }
         rewriteDoc();
     }
 }
