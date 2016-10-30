@@ -5,13 +5,13 @@ package RPIS41.Fartushnov.wdad.learn.xml.rmi;/**
 import RPIS41.Fartushnov.wdad.learn.xml.XmlTask;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
 
-import java.rmi.Remote;
 import java.util.List;
 
-public class XmlDataManagerImpl implements Remote, XmlDataManager{
-    private XmlTask xmlTask;
+public class XmlDataManagerImpl implements XmlDataManager,Serializable{
+    private final XmlTask xmlTask = new XmlTask();
 
     public int earningsTotal(Officiant officiant, Calendar calendar) {
         return xmlTask.earningsTotal(officiant.getSecondName(), calendar);
@@ -26,11 +26,14 @@ public class XmlDataManagerImpl implements Remote, XmlDataManager{
     }
 
     public List<Order> getOrders(Calendar calendar) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return xmlTask.getOrders(calendar);
     }
 
-    public Calendar lastOfficiantWorkDate(Officiant officiant) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Calendar lastOfficiantWorkDate(Officiant officiant) throws NoSuchOfficiantException {
+        Calendar date = xmlTask.lastOfficiantWorkDate(officiant.getFirstName(),officiant.getSecondName());
+        if (date == null)
+            throw new NoSuchOfficiantException("Officiant not exist: "+officiant.getFirstName()+" "+officiant.getSecondName());
+        return date;
     }
 
 }

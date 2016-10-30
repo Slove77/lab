@@ -1,7 +1,11 @@
-package RPIS41.Fartushnov.wdad.learn.xml.rmi;/**
+package RPIS41.Fartushnov.wdad.learn.xml.rmi;
+
+import java.io.Serializable;
+
+/**
  * Created by никита on 29.10.2016.
  */
-public class Officiant {
+public class Officiant implements Serializable {
     private final String firstName;
     private final String secondName;
 

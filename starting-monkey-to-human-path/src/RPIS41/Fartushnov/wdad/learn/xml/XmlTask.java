@@ -1,5 +1,8 @@
 package RPIS41.Fartushnov.wdad.learn.xml;
 
+import RPIS41.Fartushnov.wdad.learn.xml.rmi.Item;
+import RPIS41.Fartushnov.wdad.learn.xml.rmi.Officiant;
+import RPIS41.Fartushnov.wdad.learn.xml.rmi.Order;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -7,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.util.Calendar;
 import java.io.FileOutputStream;
+import java.util.LinkedList;
 
 
 import org.w3c.dom.Document;
@@ -145,4 +149,53 @@ public class XmlTask {
         return countItems;
     }
 
+    public Calendar lastOfficiantWorkDate(String firstName, String secondName) {
+        NodeList officiants = doc.getElementsByTagName("officiant");
+        NamedNodeMap officiantInfo;
+        Calendar calendar = null;
+        for (int i = officiants.getLength() - 1; i >= 0; i--) {
+            officiantInfo = officiants.item(i).getAttributes();
+            if ((officiantInfo.getNamedItem("firstname").getNodeValue().equals(firstName)) &&
+                    (officiantInfo.getNamedItem("secondname").getNodeValue().equals(secondName))) {
+                Node date = officiants.item(i).getParentNode().getParentNode();
+                calendar = Calendar.getInstance();
+                NamedNodeMap dateInfo = date.getAttributes();
+                calendar.set(
+                        Integer.parseInt(dateInfo.getNamedItem("year").getTextContent()),
+                        Integer.parseInt(dateInfo.getNamedItem("month").getTextContent()),
+                        Integer.parseInt(dateInfo.getNamedItem("day").getTextContent())
+                );
+                return calendar;
+            }
+        }
+        return null;
+    }
+
+    public LinkedList<Order> getOrders(Calendar date){
+        LinkedList<Order> result = new LinkedList<>();
+        NamedNodeMap dateInfo;
+        NodeList dates = doc.getElementsByTagName("date");
+        for (int i=0; i<dates.getLength(); i++){
+            dateInfo = dates.item(i).getAttributes();
+            if ((Integer.valueOf(dateInfo.getNamedItem("day").getNodeValue()) == date.get(Calendar.DAY_OF_MONTH)) &&
+                    (Integer.valueOf(dateInfo.getNamedItem("month").getNodeValue()) == (date.get(Calendar.MONTH)+1)) &&
+                    (Integer.valueOf(dateInfo.getNamedItem("year").getNodeValue()) == date.get(Calendar.YEAR))) {
+                NodeList orders = dates.item(i).getChildNodes();
+                for(int j = 0; j < orders.getLength(); j++){
+                    Element order = (Element)orders.item(j);
+                    LinkedList<Item> addingItems = new LinkedList<Item>();
+                    Element officiant = (Element)order.getElementsByTagName("officiant").item(0);
+                    Officiant addingOfficiant = new Officiant(officiant.getAttribute("firstname"), officiant.getAttribute("secondname"));
+                    NodeList items = order.getElementsByTagName("item");
+                    for(int k = 0; k < items.getLength(); k++){
+                        Element item = (Element)items.item(k);
+                        addingItems.add(new Item(item.getAttribute("name"), Integer.parseInt(item.getAttribute("cost"))));
+                    }
+                    result.add(new Order(addingOfficiant, addingItems));
+                }
+                break;
+            }
+        }
+        return result;
+    }
 }
