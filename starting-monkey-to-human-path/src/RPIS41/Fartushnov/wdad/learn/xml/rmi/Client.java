@@ -47,7 +47,7 @@ public class Client {
         }
         if(registry != null){
             try{
-                XmlDataManager xmlDataManager = (XmlDataManager) registry.lookup(XML_DATA_MANAGER);
+                XmlDataManager xmlDataManager = (XmlDataManager) registry.lookup(XML_DATA_MANAGER);//??
                 try {
                     doWork(xmlDataManager);
                 } catch (IOException e) {
@@ -64,20 +64,21 @@ public class Client {
 
     private static void doWork(XmlDataManager xmlDataManager) throws IOException, NoSuchOfficiantException {
         Calendar calendarEarnings = Calendar.getInstance();
-        calendarEarnings.set(2016, Calendar.JANUARY, 8);//дата для проверки прибыли за день
+        calendarEarnings.set(2015, Calendar.AUGUST, 15);//дата для проверки прибыли за день
         Calendar calendarRemove = Calendar.getInstance();
-        calendarRemove.set(2015, Calendar.APRIL, 25);//дата для удаления
+        calendarRemove.set(2016, Calendar.OCTOBER, 5);//дата для удаления
         try {
-            System.out.println("Прибыль Сидорова за 8 января 2016 года: " + xmlDataManager.earningsTotal(new Officiant("dimas", "sidorov"), calendarEarnings));
+            System.out.println("Заработок Vladimira Ivanova за 15 августа 2015: " + xmlDataManager.earningsTotal(new Officiant("vladimir", "ivanov"), calendarEarnings));
             xmlDataManager.removeDay(calendarRemove);
-            xmlDataManager.changeOfficiantName(new Officiant("alexander", "petrov"), new Officiant("sashka", "ivanov"));
+            xmlDataManager.changeOfficiantName(new Officiant("alex", "petrov"), new Officiant("ivan", "sidorov"));
+            System.out.println("Информация по заказам за 15 августа 2015(Имя и фамилия официанта,кол-во итемов");
             for (Order order : xmlDataManager.getOrders(calendarEarnings))
                 System.out.println(order.getOfficiant().getFirstName() + " " + order.getOfficiant().getSecondName() + " " + order.getCountItems());
-            Calendar lastKolyanWorkDay = xmlDataManager.lastOfficiantWorkDate(new Officiant("kolyan", "ivanov"));
-            System.out.println("last work day kolyan ivanov: " +
-                    lastKolyanWorkDay.get(Calendar.DAY_OF_MONTH) + " " +
-                    lastKolyanWorkDay.get(Calendar.MONTH) + " " +
-                    lastKolyanWorkDay.get(Calendar.YEAR));
+            Calendar lastWorkDay = xmlDataManager.lastOfficiantWorkDate(new Officiant("ivan", "sidorov"));
+            System.out.println("last work day ivana sidorova: " +
+                    lastWorkDay.get(Calendar.DAY_OF_MONTH) + " " +
+                    lastWorkDay.get(Calendar.MONTH) + " " +
+                    lastWorkDay.get(Calendar.YEAR));
         }catch (RemoteException re){re.printStackTrace();}
     }
 }

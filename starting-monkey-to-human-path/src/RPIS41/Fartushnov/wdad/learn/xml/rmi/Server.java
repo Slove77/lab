@@ -18,7 +18,7 @@ import java.util.Scanner;
  * Created by никита on 30.10.2016.
  */
 public class Server {
-    private static PreferencesManager prefManager;
+    private static PreferencesManager preferencesManager;
 
     private static final String XML_DATA_MANAGER = "XmlDataManager";
     private static final int XML_DATA_MANAGER_PORT = 33333;
@@ -26,24 +26,24 @@ public class Server {
 
     public static void main(String[] args) throws XPathExpressionException, IOException {
         try {
-            prefManager = PreferencesManager.getInstance();
+            preferencesManager = PreferencesManager.getInstance();
         }catch (IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
             System.err.println("appconfig.xml damaged");
         }
         System.out.println("Preparing server:...");
         System.setProperty("java.rmi.server.codebase", CODEBASE_URL);
-        System.setProperty("java.rmi.server.UseCodeBaseOnly", prefManager.getProperty(PreferencesConstantManager.USE_CODE_BASE_ONLY));
+        System.setProperty("java.rmi.server.UseCodeBaseOnly", preferencesManager.getProperty(PreferencesConstantManager.USE_CODE_BASE_ONLY));
         System.setProperty("java.rmi.server.logCalls", "true");
-        System.setProperty("java.security.policy", prefManager.getProperty(PreferencesConstantManager.POLICY_PATH));
+        System.setProperty("java.security.policy", preferencesManager.getProperty(PreferencesConstantManager.POLICY_PATH));
         System.setSecurityManager(new SecurityManager());
         System.out.println("Server prepared.");
 
         Registry registry = null;
         try{
-            if(prefManager.getProperty(PreferencesConstantManager.CREATE_REGISTRY).equals("yes"))
-                registry = LocateRegistry.createRegistry(Integer.parseInt(prefManager.getProperty(PreferencesConstantManager.REGISTRY_PORT)));
-            else registry = LocateRegistry.getRegistry(Integer.parseInt(prefManager.getProperty(PreferencesConstantManager.REGISTRY_PORT)));
+            if(preferencesManager.getProperty(PreferencesConstantManager.CREATE_REGISTRY).equals("yes"))
+                registry = LocateRegistry.createRegistry(Integer.parseInt(preferencesManager.getProperty(PreferencesConstantManager.REGISTRY_PORT)));
+            else registry = LocateRegistry.getRegistry(Integer.parseInt(preferencesManager.getProperty(PreferencesConstantManager.REGISTRY_PORT)));
         }catch (RemoteException re){
             re.printStackTrace();
             System.err.println("cant locate registry");
@@ -55,7 +55,7 @@ public class Server {
                 XmlDataManagerImpl xmlDataManagerImpl = new XmlDataManagerImpl();
                 UnicastRemoteObject.exportObject(xmlDataManagerImpl, XML_DATA_MANAGER_PORT);
                 registry.rebind(XML_DATA_MANAGER, xmlDataManagerImpl);
-                prefManager.addBindedObject(XML_DATA_MANAGER, "RPIS41.Fartushnov.wdad.learn.rmi.XmlDataMangerImpl");
+                preferencesManager.addBindedObject(XML_DATA_MANAGER, "RPIS41.Fartushnov.wdad.learn.xml.rmi.XmlDataManagerImpl");
                 System.out.println("Waiting ... ");
                 System.out.println("Input \"exit\" to close server.");
                 Scanner scanner = new Scanner(System.in);
@@ -65,7 +65,7 @@ public class Server {
                     if(input.equals("exit")) {
                         try {
                             registry.unbind(XML_DATA_MANAGER);
-                            prefManager.removeBindedObject(XML_DATA_MANAGER);
+                            preferencesManager.removeBindedObject(XML_DATA_MANAGER);
                             System.exit(0);
                         }catch (NotBoundException e){
                             e.printStackTrace();

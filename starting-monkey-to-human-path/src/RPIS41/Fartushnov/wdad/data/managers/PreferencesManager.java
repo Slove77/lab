@@ -10,8 +10,11 @@ import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -21,14 +24,18 @@ import static RPIS41.Fartushnov.wdad.utils.PreferencesConstantManager.*;
 public class PreferencesManager {
     private static PreferencesManager instance;
     private static String PATH = "src/RPIS41/Fartushnov/wdad/resources/configurations/appconfig.xml";
-    private Document doc;
+    private static Document doc;
     private static XPathFactory factory;
     private static XPath xPath;
 
     public static PreferencesManager getInstance() throws ParserConfigurationException, IOException, SAXException {
-        factory = XPathFactory.newInstance();
-        xPath = factory.newXPath();
         if (instance == null) {
+            File xmlFile = new File(PATH);
+            DocumentBuilderFactory docBuildfactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = docBuildfactory.newDocumentBuilder();
+            doc = builder.parse(xmlFile);
+            factory = XPathFactory.newInstance();
+            xPath = factory.newXPath();
             instance = new PreferencesManager();
         }
         return instance;

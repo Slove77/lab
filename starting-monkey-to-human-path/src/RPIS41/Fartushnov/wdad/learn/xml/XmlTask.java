@@ -171,16 +171,15 @@ public class XmlTask {
         return null;
     }
 
-    public LinkedList<Order> getOrders(Calendar date){
-        LinkedList<Order> result = new LinkedList<>();
-        NamedNodeMap dateInfo;
+    public LinkedList<Order> getOrders(Calendar calendar){
+        LinkedList<Order> result = new LinkedList<Order>();
         NodeList dates = doc.getElementsByTagName("date");
-        for (int i=0; i<dates.getLength(); i++){
-            dateInfo = dates.item(i).getAttributes();
-            if ((Integer.valueOf(dateInfo.getNamedItem("day").getNodeValue()) == date.get(Calendar.DAY_OF_MONTH)) &&
-                    (Integer.valueOf(dateInfo.getNamedItem("month").getNodeValue()) == (date.get(Calendar.MONTH)+1)) &&
-                    (Integer.valueOf(dateInfo.getNamedItem("year").getNodeValue()) == date.get(Calendar.YEAR))) {
-                NodeList orders = dates.item(i).getChildNodes();
+        for(int i = 0; i < dates.getLength(); i++){
+            Element date = (Element)dates.item(i);
+            if(Integer.parseInt(date.getAttribute("day")) == calendar.get(Calendar.DAY_OF_MONTH) &&
+                    Integer.parseInt(date.getAttribute("month")) == (calendar.get(Calendar.MONTH) + 1) &&
+                    Integer.parseInt(date.getAttribute("year")) == calendar.get(Calendar.YEAR)){
+                NodeList orders = date.getElementsByTagName("order");
                 for(int j = 0; j < orders.getLength(); j++){
                     Element order = (Element)orders.item(j);
                     LinkedList<Item> addingItems = new LinkedList<Item>();
