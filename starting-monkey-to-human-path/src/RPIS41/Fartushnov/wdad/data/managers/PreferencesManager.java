@@ -29,13 +29,13 @@ public class PreferencesManager {
     private static XPath xPath;
 
     public static PreferencesManager getInstance() throws ParserConfigurationException, IOException, SAXException {
-        File apiFile = new File(PATH);
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        doc = dBuilder.parse(apiFile);
-        factory = XPathFactory.newInstance();
-        xPath = factory.newXPath();
         if (instance == null) {
+            File xmlFile = new File(PATH);
+            DocumentBuilderFactory docBuildfactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = docBuildfactory.newDocumentBuilder();
+            doc = builder.parse(xmlFile);
+            factory = XPathFactory.newInstance();
+            xPath = factory.newXPath();
             instance = new PreferencesManager();
         }
         return instance;
