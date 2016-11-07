@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE restaurant SYSTEM "restaurant.dtd">
 <restaurant>
-<date day="15" month="5" year="2016">
+<date day="15" month="8" year="2015">
         <order>
-            <officiant firstname="andrey" secondname="petrov"/>
+            <officiant firstname="vladimir" secondname="ivanov"/>
             <item cost="20" name="bread"/>
             <item cost="40" name="milk"/>
             <totalcost>60</totalcost>
         </order>
         <order>
-            <officiant firstname="andrey" secondname="petrov"/>
+            <officiant firstname="ivan" secondname="sidorov"/>
             <item cost="30" name="juice"/>
             <item cost="20" name="milk"/>
             <totalcost>50</totalcost>
         </order>
-    </date><date day="7" month="10" year="2017">
+    </date><date day="5" month="10" year="2016">
         <order>
             <officiant firstname="lev" secondname="petrov"/>
             <item cost="15" name="soup"/>

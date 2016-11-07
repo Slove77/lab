@@ -8,7 +8,7 @@ import java.util.Calendar;
  * Created by никита on 07.10.2016.
  */
 public class TestXmlTask {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         XmlTask test = new XmlTask();
         try{
             test.changeOfficiantName("garik","sidorov","vova","petrov"); //смена имени официанта
@@ -17,9 +17,8 @@ public class TestXmlTask {
             calendar.setTime(sdf.parse("7-5-2016"));
             //test.removeDay(calendar);
             System.out.println(test.earningsTotal("petrov",calendar));
-            test.sortByDate();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-    }
+    }*/
 }
