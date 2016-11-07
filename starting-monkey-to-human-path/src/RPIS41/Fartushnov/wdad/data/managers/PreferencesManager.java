@@ -194,6 +194,9 @@ public class PreferencesManager {
         return prop;
     }
 
+
+
+
     public void addBindedObject(String name, String className) throws IOException, XPathExpressionException {
         Element bindedObject = doc.createElement("bindedobject");
         bindedObject.setAttribute("name", name);
@@ -201,6 +204,9 @@ public class PreferencesManager {
         doc.getElementsByTagName("server").item(0).appendChild(bindedObject);
         rewriteDoc();
     }
+
+
+
 
     public void removeBindedObject(String name) throws XPathExpressionException, IOException {
         NodeList bindedObjects = doc.getElementsByTagName("bindedobject");
