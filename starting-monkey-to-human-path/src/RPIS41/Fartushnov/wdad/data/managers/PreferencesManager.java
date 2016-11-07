@@ -23,7 +23,7 @@ import static RPIS41.Fartushnov.wdad.utils.PreferencesConstantManager.*;
 
 public class PreferencesManager {
     private static PreferencesManager instance;
-    private static String PATH = "src/RPIS41/Fartushnov/wdad/resources/configurations/appconfig.xml";
+    private static final String PATH = "src/RPIS41/Fartushnov/wdad/resources/configurations/appconfig.xml";
     private static Document doc;
     private static XPathFactory factory;
     private static XPath xPath;

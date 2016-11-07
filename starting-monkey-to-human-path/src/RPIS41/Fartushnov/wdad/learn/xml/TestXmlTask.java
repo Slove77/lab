@@ -17,7 +17,6 @@ public class TestXmlTask {
             calendar.setTime(sdf.parse("7-5-2016"));
             //test.removeDay(calendar);
             System.out.println(test.earningsTotal("petrov",calendar));
-            test.sortByDate();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
