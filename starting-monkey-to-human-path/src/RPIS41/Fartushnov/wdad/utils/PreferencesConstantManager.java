@@ -1,7 +1,6 @@
 package RPIS41.Fartushnov.wdad.utils;
 
 /**
- * Created by никита on 24.10.2016.
  */
 public interface PreferencesConstantManager {
     public static String REGISTRY_ADDRESS = "appconfig.rmi.server.registry.registryaddress";
